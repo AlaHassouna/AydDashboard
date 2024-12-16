@@ -71,7 +71,11 @@ function App() {
                 className={"flex-1 transition-all duration-300 ease-in-out"}
               >
                 <Routes>
-                      {/* Redirection conditionnelle */}
+                <Route
+                      path="/"
+                      element={<Navigate to={isLogin ? "/dashboard" : "/login"} replace />}
+                    />
+                                        {/* Redirection conditionnelle */}
                       <Route
                         path="/dashboard"
                         element={
