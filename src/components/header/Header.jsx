@@ -3,7 +3,60 @@ import logo from '../../assets/images/logo1.png';
 import logoWhite from '../../assets/images/logowhite.png'
 import { MyContext } from "../../App";
 import { Link } from "react-router-dom";
+import Pusher from "pusher-js";
+import notificationSound from '../../assets/notification-4-270132.mp3'
 const Header = () => {
+    const [notifications, setNotifications] = useState(() => {
+        const savedNotifications = localStorage.getItem("notifications");
+        return savedNotifications ? JSON.parse(savedNotifications) : [];
+    });
+    
+    const [newOrder, setNewOrder] = useState(null); // Pour gérer la bannière
+    const playNotificationSound = () => {
+        const audio = new Audio(notificationSound); // ✅ Utilisation correcte de l'audio importé
+        audio.play().catch(error => console.error("Erreur lors de la lecture du son :", error)); // ✅ Gestion des erreurs
+    };
+    useEffect(() => {
+        Pusher.logToConsole = true;
+    
+        const pusher = new Pusher("f3e2e230ab2ecb563aa2", {
+            cluster: "eu",
+            encrypted: true,
+            forceTLS: true
+        });
+    
+        const channel = pusher.subscribe("orders");
+    
+        channel.bind("pusher:subscription_succeeded", () => {
+            console.log("Abonnement réussi au canal orders");
+        });
+    
+        channel.bind("order.created", (data) => {
+            console.log("Nouvelle commande reçue :", data);
+            
+            playNotificationSound(); // 📢 Jouer un son
+            setNewOrder(data.message); // 🔴 Afficher la bannière
+    
+            setNotifications((prevNotifications) => {
+                const updatedNotifications = [data.message, ...prevNotifications];
+    
+                // Sauvegarder dans localStorage
+                localStorage.setItem("notifications", JSON.stringify(updatedNotifications));
+    
+                return updatedNotifications;
+            });
+    
+            
+        });
+    
+        return () => {
+            pusher.unsubscribe("orders");
+            pusher.disconnect();
+        };
+    }, []);
+    
+    
+    
     const [isNotifcationsVisible, setIsNotifcationsVisible] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(() => {
         return localStorage.getItem("color-theme") === "dark" ||
@@ -42,6 +95,7 @@ const Header = () => {
     if(isMyAccVisible){
         setIsMyAccVisible(false)
     }
+     // Masquer la bannière après ouverture
   };
 
 
@@ -60,6 +114,7 @@ const Header = () => {
     if(isMyAccVisible){
         setIsMyAccVisible(false)
     }
+    setNewOrder(null);
   };
 
 
@@ -162,6 +217,10 @@ const Header = () => {
                         dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                         onClick={toggleOrders}
                         >
+                            {newOrder && (
+                                <div className="absolute inline-flex items-center justify-center w-3 h-3 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full ml-1 top-1 dark:border-gray-900"></div>
+                            )}
+
                             <span className="sr-only">View Orders</span>
                             {/* <!-- Bell icon --> */}
                             <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -171,25 +230,48 @@ const Header = () => {
                         </button>
                         {/* <!-- Dropdown menu --> */}
                         {isOrdersVisible && (
-                            <div className="absolute right-0 w-[300px] max-h-[400px] overflow-auto z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700" id="notification-dropdown">
+                                <div className="absolute right-0 w-[300px] max-h-[400px] overflow-auto z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700" id="notification-dropdown">
+                                    
+                                    <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    Orders
+                                    </div>
 
-                            <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                Orders
-                            </div>
-                            <div>
-                            <a href="#" className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
-                                <div className="flex-shrink-0">
-                                <img className="w-11 h-11 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Green avatar"/>
-                                <div className="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 rounded-full border border-white bg-primary-700 dark:border-gray-700">
-                                    <svg className="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18"><path d="M15.977.783A1 1 0 0 0 15 0H3a1 1 0 0 0-.977.783L.2 9h4.239a2.99 2.99 0 0 1 2.742 1.8 1.977 1.977 0 0 0 3.638 0A2.99 2.99 0 0 1 13.561 9H17.8L15.977.783ZM6 2h6a1 1 0 1 1 0 2H6a1 1 0 0 1 0-2Zm7 5H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Z"/><path d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z"/></svg>
+                                    <div>
+                                    {notifications.map((order, index) => (
+                                        <Link to={`/dashboard/orders/edit/${order.id}`} key={index}  className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+                                        <div className="flex-shrink-0">
+                                            <svg className="w-11 h-11 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fillRule="evenodd" d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z" clipRule="evenodd"/>
+                                            </svg>
+
+                                            {/* Badge si la commande est "Confirmé" */}
+                                            {order.status === "Confirmé" && (
+                                            <div className="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 rounded-full border border-white bg-primary-700 dark:border-gray-700">
+                                                <svg className="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                                                <path d="M15.977.783A1 1 0 0 0 15 0H3a1 1 0 0 0-.977.783L.2 9h4.239a2.99 2.99 0 0 1 2.742 1.8 1.977 1.977 0 0 0 3.638 0A2.99 2.99 0 0 1 13.561 9H17.8L15.977.783ZM6 2h6a1 1 0 1 1 0 2H6a1 1 0 0 1 0-2Zm7 5H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Z"/>
+                                                <path d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z"/>
+                                                </svg>
+                                            </div>
+                                            )}
+                                        </div>
+
+                                        <div className="pl-3 w-full">
+                                            <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
+                                            New  
+                                            <span className="font-semibold text-gray-900 dark:text-white"> Order #{order.id}</span>
+                                            </div>
+                                            <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
+                                            {new Date(order.created_at).toLocaleString()}
+                                            </div>
+                                        </div>
+                                        </Link>
+                                    ))}
+                                    </div>
                                 </div>
-                                </div>
-                                <div className="pl-3 w-full">
-                                    <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">New message from <span className="font-semibold text-gray-900 dark:text-white">Bonnie Green</span>: "Hey, what's up? All set for the presentation?"</div>
-                                    <div className="text-xs font-medium text-primary-700 dark:text-primary-400">a few moments ago</div>
-                                </div>
-                            </a>
-                            <a href="#" className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+                                )}
+
+
+                            {/* <a href="#" className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
                                 <div className="flex-shrink-0">
                                 <img className="w-11 h-11 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Jese Leos avatar"/>
                                 <div className="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-gray-900 rounded-full border border-white dark:border-gray-700">
@@ -245,7 +327,7 @@ const Header = () => {
                                 </div>
                             </a>
                         </div>
-                        )}
+                        )} */}
                         </div>
                         
                         {/* <!-- Messages --> */}
@@ -425,8 +507,8 @@ const Header = () => {
                             {isMyAccVisible && (
                             <div className="absolute right-0 w-[200px] z-50 my-4  text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown">
                                 <div className="py-3 px-4">
-                                    <span className="block text-sm font-semibold text-gray-900 dark:text-white">Neil sims</span>
-                                    <span className="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                                    <span className="block text-sm font-semibold text-gray-900 dark:text-white">{context.user.fullName}</span>
+                                    <span className="block text-sm text-gray-500 truncate dark:text-gray-400">{context.user.email}</span>
                                 </div>
                                 <ul className="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
                                     <li>
@@ -440,7 +522,10 @@ const Header = () => {
                                 
                                 <ul className="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
                                     <li>
-                                        <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+                                        <Link onClick={() => {
+                                        context.setIsLogin(false);  // Met à jour l'état de la connexion dans le contexte
+                                        localStorage.removeItem("isLoggedIn");  // Retire l'indicateur de connexion du localStorage
+                                        }} to="/login"  className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</Link>
                                     </li>
                                 </ul>
                             </div>

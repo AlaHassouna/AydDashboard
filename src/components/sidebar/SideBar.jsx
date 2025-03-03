@@ -52,6 +52,7 @@ const SideBar = () => {
              </a>
           </li> */}
           <li>
+            <Link to="/dashboard">
              <button type="button" className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 
              rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" 
              aria-controls="dropdown-example" data-collapse-toggle="dropdown-example" onClick={toggleDashboard}>
@@ -60,15 +61,15 @@ const SideBar = () => {
                     </svg>
 
                    <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Dashboard</span>
-                   {!isDashboardVisible && (<svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                   {/* {!isDashboardVisible && (<svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10 16 4-4-4-4"/>
                     </svg>)}
                     {isDashboardVisible && (
                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                       <path stroke="currentColor" strokeLinecap="  " strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-                   </svg>)}
+                   </svg>)} */}
              </button>
-             {isDashboardVisible && (
+             {/* {isDashboardVisible && (
               <ul id="dropdown-example" className="py-2 space-y-2">
                    <li>
                       <a href="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 
@@ -76,11 +77,11 @@ const SideBar = () => {
                        Ecommerce
                         </a>
                    </li>
-                   {/* <li>
-                      <a href="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 
-                      group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                      >Analytics</a>
-                   </li> */}
+                   // <li>
+                     // <a href="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 
+                     // group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                     // >Analytics</a>
+                 //  </li> 
                    <li>
                       <a href="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11
                        group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -92,7 +93,8 @@ const SideBar = () => {
                         Erp</a>
                    </li>
              </ul>
-            )}
+            )} */}
+            </Link>
           </li>
            {/* Products */}
            <li>
@@ -216,7 +218,7 @@ const SideBar = () => {
           </li>
           {/* User */}
           <li>
-             <Link to="" className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 
+             <Link to="/dashboard/users" className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 
              rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" 
              aria-controls="dropdown-example" data-collapse-toggle="dropdown-example" onClick={toggleUsers}>
                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -247,6 +249,18 @@ const SideBar = () => {
                    </li>
              </ul>
             )} */}
+          </li>
+          <li>
+             <Link to="/dashboard/orders" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+             <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+              </svg>
+
+                <span className="flex-1 ms-3 whitespace-nowrap">Orders</span>
+                
+                {/* <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-white bg-primary-700 rounded-full dark:bg-blue-900 dark:text-blue-300">5</span> */}
+
+             </Link>
           </li>
           {/* Authentification */}
           <li>
@@ -313,17 +327,7 @@ const SideBar = () => {
              </ul>
             )}
           </li>
-          <li>
-             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-             <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
-              </svg>
-
-                <span className="flex-1 ms-3 whitespace-nowrap">Orders</span>
-                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-white bg-primary-700 rounded-full dark:bg-blue-900 dark:text-blue-300">5</span>
-
-             </a>
-          </li>
+          
           <li>
              <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
              <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

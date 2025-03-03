@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react'
 import { MyContext } from '../../App';
 import { Link } from 'react-router-dom';
 import DashboardBox from '../dashboard/components/DashboardBox';
-import ListCategories from './ListCategories';
 import axios from 'axios';
 import { useEffect } from 'react';
+import ListSubCategories from './ListSubCategories';
 
-const Categories = () => {
+const Subcategories = () => {
     const [box1, setBox1] = useState(false);
     // const [brandBy, setBrandBy] = useState(false);
-    const [categories, setCategories] = useState(false);
+    const [bestSelling, setBestSelling] = useState(false);
     const [showBy, setShowBy] = useState(false);
     const [categoryBy, setCategoryBy] = useState(false);
     const [searchBy, setSearchBy] = useState(false);
@@ -17,160 +17,20 @@ const Categories = () => {
     const [valCategoryBy  , setValCategoryBy] = useState();
     const [valSearchBy  , setValSearchBy] = useState();
     const context= useContext(MyContext)
-  
-  
-    // const [categories, setCategories] = useState([
-    //   {
-    //     id: 1,
-    //     Name: "T-Shirts",
-    //     subCategorie: [
-    //       "Cartoons",
-    //       "Films",
-    //       "Animes",
-    //       "Jeux vidéo",
-    //       "Art abstrait",
-    //       "Polo T-Shirts",
-    //       "Casual"
-    //     ],
-    //     Icon: "https://images.pexels.com/photos/2294342/pexels-photo-2294342.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    //   },
-    //   {
-    //     id: 2,
-    //     Name: "Hoodies",
-    //     subCategorie: [
-    //       "Cartoons",
-    //       "Films",
-    //       "Animes",
-    //       "Streetwear",
-    //       "Casual",
-    //       "Saisonnier"
-    //     ],
-    //     Icon: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    //   },
-    //   {
-    //     id: 8,
-    //     Name: "Sweaters",
-    //     SubCategory: [
-    //       "Cartoons",
-    //       "Films",
-    //       "Streetwear",
-    //       "Vintage",
-    //       "Saisonnier",
-    //       "Casual"
-    //     ],
-    //     Icon: "https://images.pexels.com/photos/2613261/pexels-photo-2613261.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    //   },
-    //   {
-    //     id: 10,  // ID unique pour cette catégorie
-    //     Name: "Survêtements",  // Nom de la catégorie
-    //     SubCategory: [
-    //       "Casual",
-    //       "Sport",
-    //       "Streetwear",
-    //       "Saisonnier"
-    //     ],  // Sous-catégories possibles pour les tracksuits
-    //     Icon: "https://images.pexels.com/photos/26664909/pexels-photo-26664909/free-photo-of-les-moments.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  // Icône associée à la catégorie
-    //   },
-      
-    //   {
-    //     id: 7,  // ID unique pour cette catégorie
-    //     Name: "Pantalons",  // Nom de la catégorie
-    //     SubCategory: [
-    //       "Jeans",
-    //       "Chinos",
-    //       "Jogging",
-    //       "Formel"
-    //     ],  // Sous-catégories
-    //     Icon: "https://images.pexels.com/photos/1895943/pexels-photo-1895943.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  // Icône associée à la catégorie
-    //   },
-    //   {
-    //     id: 3,
-    //     Name: "Vestes",
-    //     subCategorie: [
-    //       "Films",
-    //       "Animes",
-    //       "Logos",
-    //       "Casual",
-    //       "Formel",
-    //       "Détail graphique"
-    //     ],
-    //     Icon: "https://images.pexels.com/photos/16170/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    //   },
-    //   {
-    //     id: 9,
-    //     Name: "Shorts",
-    //     SubCategory: [
-    //       "Casual",
-    //       "Sport",
-    //       "Vintage",
-    //       "Saisonnier",
-    //       "Streetwear"
-    //     ],
-    //     Icon: "https://images.pexels.com/photos/18394309/pexels-photo-18394309/free-photo-of-portrait-d-un-jeune-garcon-avec-une-silhouette-sombre-contre-le-mur.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    //   },
-    //   {
-    //     id: 4,
-    //     Name: "Jupes",
-    //     subCategorie: [
-    //       "Motifs floraux",
-    //       "Casual",
-          
-    //     ],
-    //     Icon: "https://images.pexels.com/photos/1007018/pexels-photo-1007018.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    //   },
-    //   {
-    //     id: 5,
-    //     Name: "Robes",
-    //     subCategorie: [
-    //       "Casual",
-    //       "Élégance minimaliste",
-    //       "Saisonnière",
-    //       "Art moderne"
-    //     ],
-    //     Icon: "https://images.pexels.com/photos/2065195/pexels-photo-2065195.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    //   },
-    //   // {
-    //   //   id: 6,
-    //   //   Name: "Chemises",
-    //   //   SubCategory: [
-    //   //     "Films et séries",
-    //   //     "Art graphique",
-    //   //     "Thème cartoon",
-    //   //     "Vintage"
-    //   //   ],
-    //   //   Icon: "https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=400"
-    //   // },
-      
-      
-      
-      
-    //   {
-    //     id: 10,
-    //     Name: "Accessoires",
-    //     subCategorie: [
-    //       "Écharpes",
-    //       "Chapeaux",
-    //       "Gants",
-    //       "Bijoux",
-    //       "Sacs à main"
-    //     ],
-    //     Icon: "https://images.pexels.com/photos/30076369/pexels-photo-30076369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    //   }
-    // ]); // État pour stocker les catégories
     const [selectedCategory, setSelectedCategory] = useState(''); // État pour la catégorie sélectionnée  
-const [mockCategories, setMockCategories] = useState([]); // État pour stocker les catégories
+const [subCategories, setSubCategories] = useState([]); // État pour stocker les catégories
   
 
   useEffect(() => {
     // Fonction pour récupérer les catégories
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/categories', {
+            const response = await axios.get('http://127.0.0.1:8000/api/subcategories', {
                 headers: {
                     accept: 'application/json',
                 },
             });
-            setMockCategories(response.data); // Mettre à jour l'état avec les données récupérées
+            setSubCategories(response.data); // Mettre à jour l'état avec les données récupérées
         } catch (error) {
             console.error('Erreur lors de la récupération des catégories :', error);
         }
@@ -179,20 +39,20 @@ const [mockCategories, setMockCategories] = useState([]); // État pour stocker 
     fetchCategories(); // Appel de la fonction
   }, []);
   useEffect(()=>{
-  console.log("mockCategories ",mockCategories)
-  },[mockCategories])
+  console.log("subCategories ",subCategories)
+  },[subCategories])
     
     useEffect(()=>{
-console.log("categories ",mockCategories)
-    },[mockCategories])
+console.log("subCategories ",subCategories)
+    },[subCategories])
 
 
     const toggleBox1 = () => {
       setBox1(!box1);
     };
   
-    const toggleCategories = () => {
-      setCategories(!categories);
+    const toggleBestSelling = () => {
+      setBestSelling(!bestSelling);
      
       
     };
@@ -206,7 +66,9 @@ console.log("categories ",mockCategories)
       if(searchBy){
         setSearchBy(!searchBy);
     }
-     
+      if(brandBy){
+        setBrandBy(!brandBy);
+        }
     };
   
     const toggleCategoryBy = () => {
@@ -231,22 +93,20 @@ console.log("categories ",mockCategories)
       if(categoryBy){
         setCategoryBy(!categoryBy);
       }
-      if(brandBy){
-        setBrandBy(!brandBy);
-      }
+     
     };
-    const [totCategories, setTotCategories] = useState(); 
-  
+        const [totSubCategories, setTotSubCategories] = useState(); 
+    
     useEffect(() => {
       // Fonction pour récupérer les catégories
       const fetchtotReviews = async () => {
           try {
-              const response = await axios.get('http://127.0.0.1:8000/api/categories/count', {
+              const response = await axios.get('http://127.0.0.1:8000/api/subcategories/count', {
                   headers: {
                       accept: 'application/json',
                   },
               });
-              setTotCategories(response.data.count); 
+              setTotSubCategories(response.data.count); 
           } catch (error) {
               console.error('Erreur lors de la récupération des catégories :', error);
           }
@@ -255,8 +115,8 @@ console.log("categories ",mockCategories)
       fetchtotReviews(); // Appel de la fonction
     }, []);
     useEffect(()=>{
-    console.log("totCategories ",totCategories)
-    },[totCategories])
+    console.log("totSubCategories ",totSubCategories)
+    },[totSubCategories])
 
   return (
     <div
@@ -281,7 +141,7 @@ console.log("categories ",mockCategories)
                                     <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
                                     </svg>
-                                    <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Categories</span>
+                                    <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Subcategories</span>
                                 </div>
                                 </li>
                             </ol>
@@ -303,15 +163,14 @@ console.log("categories ",mockCategories)
                         <DashboardBox
                         icon={
                             
-                        <svg className="text-[45px] opacity-40 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M5 3a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5Zm0 12a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H5Zm12 0a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-2Zm0-12a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2Z"/>
-                        <path fill-rule="evenodd" d="M10 6.5a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1ZM10 18a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1Zm-4-4a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1Zm12 0a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1Z" clip-rule="evenodd"/>
-                        </svg>
                         
+                         <svg class="w-6 h-6 text-gray-800 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 8v8m0-8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm6-2a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm0 0h-1a5 5 0 0 1-5-5v-.5"/>
+                         </svg>
                         
                         }
-                        title={"Total Categories"}
-                        value={totCategories}
+                        title={"Total Subcategories"}
+                        value={totSubCategories }
                         />
                     </div>
 
@@ -325,14 +184,14 @@ console.log("categories ",mockCategories)
                 {/* Dots */}
                 <div className="relative ml-auto">
 
-                  <button onClick={toggleCategories} >
+                  <button onClick={toggleBestSelling} >
                     <svg className="w-[35px] h-[35px] text-black dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" strokeLinecap="round" strokeWidth="2.8" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
                     </svg>
                   </button>
 
                 {/* /* Dropdown menu */} 
-                  {categories && (
+                  {bestSelling && (
                     <div id="dropdownDots" className="absolute top-full right-0  z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                       <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                       <li className="ml-3 flex items-center space-x-2">
@@ -476,7 +335,7 @@ console.log("categories ",mockCategories)
                   
                   
                   
-                  <ListCategories categories={mockCategories} setCategories={setMockCategories}/>
+                  <ListSubCategories subCategories={subCategories} setSubCategories={setSubCategories}/>
                   {/* <BestSellingTable /> */}
              </div>
           </div>
@@ -485,4 +344,4 @@ console.log("categories ",mockCategories)
   )
 }
 
-export default Categories
+export default Subcategories

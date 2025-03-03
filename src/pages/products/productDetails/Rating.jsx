@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Rating = () => {
-    const reviewsData = {
+  const [reviewStat,setReviewStat]=useState({
+        productId:1,
         averageRating: 4.5,
         totalReviews: 645,
         ratingsDistribution: [
@@ -11,58 +12,69 @@ const Rating = () => {
           { rating: 2, count: 32, percentage: 5 },
           { rating: 1, count: 20, percentage: 3 }
         ],
-        individualReviews: [
+  })
+    const [reviewsData,setReviewsData] =useState ([
           {
             reviewer: "Alice",
             rating: 5,
             comment: "Excellent produit, je suis très satisfaite !",
-            date: "2024-12-01"
+            date: "2024/12/01"
           },
           {
             reviewer: "Bob",
             rating: 4,
             comment: "Très bon produit, mais la livraison a pris du temps.",
-            date: "2024-11-28"
+            date: "2024/11/28"
           },
           {
             reviewer: "Charlie",
             rating: 3,
             comment: "Le produit est correct mais pas exceptionnel.",
-            date: "2024-11-20"
+            date: "2024/11/20"
           },
           {
             reviewer: "Diane",
             rating: 2,
             comment: "Mauvais rapport qualité/prix.",
-            date: "2024-11-15"
+            date: "2024/11/15"
           },
           {
             reviewer: "Eve",
             rating: 1,
             comment: "Produit défectueux, très déçue.",
-            date: "2024-11-10"
+            date: "2024/11/10"
           }
         ]
-      };
-  return (
+      );
+    const today = new Date(); // Obtenir la date actuelle
+    const formattedDate = today.toLocaleDateString(); // Format local (par exemple : "17/01/2025" en français)
+    const [hoveredStar, setHoveredStar] = useState(0); // Gérer le survol
+    
+
+  
+    return (
     <>
 
     <section className="bg-white  antialiased dark:bg-gray-900  ">
+    <h3 class="text-xl font-bold text-gray-800 mb-2">Avis des clients    </h3>
+
+   
+
   <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-  <div class="mx-auto max-w-5xl">
-  <div className="my-6 gap-4 sm:flex sm:items-center sm:justify-between">
+  <div class=" ">
+  <div className="my-6 gap-4 sm:flex sm:items-center sm:justify-between  rounded-2xl shadow-lg p-4">
             {/* Partie des étoiles et des avis */}
             <div className="my-6 gap-8 md:my-8">
                     {/* Partie 1 */}
-                    <p className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">Total Review ({reviewsData.totalReviews})</p>
+                    <p className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">Total Review ({reviewStat.totalReviews})</p>
                     
                     {/* Partie 2 */}
-                    <h1 className="text-[50px] font-semibold text-gray-900 dark:text-white">{reviewsData.averageRating}</h1>
+                    <h1 className="text-[50px] font-semibold text-gray-900 dark:text-white">{reviewStat.averageRating}</h1>
                     
                     {/* Partie 3 */}
                     <div className="flex items-center gap-0.5">
                         {/* Render Stars Based on averageRating */}
-                        {[...Array(Math.round(reviewsData.averageRating))].map((_, i) => (
+                        {[...Array(Math.round(reviewStat.averageRating))].map((_, i) => (
                             <svg key={i} className="h-4 w-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                             </svg>
@@ -73,7 +85,7 @@ const Rating = () => {
 
             {/* Distribution des évaluations */}
             <div className="my-6 gap-8 md:my-8">
-                {reviewsData.ratingsDistribution.map(({ rating, count, percentage }) => (
+                {reviewStat.ratingsDistribution.map(({ rating, count, percentage }) => (
                     <div key={rating} className="mt-6 min-w-0 flex-1 space-y-3 sm:mt-0">
                         <div className="flex items-center gap-2">
                             <p className="w-2 shrink-0 text-start text-sm font-medium leading-none text-gray-900 dark:text-white">{rating}</p>
@@ -83,7 +95,7 @@ const Rating = () => {
                             <div className="h-1.5 w-80 rounded-full bg-gray-200 dark:bg-gray-700">
                                 <div className="h-1.5 rounded-full bg-yellow-300" style={{ width: `${percentage}%` }}></div>
                             </div>
-                            <a href="#" className="w-8 shrink-0 text-right text-sm font-medium leading-none text-primary-700 hover:underline dark:text-primary-500 sm:w-auto sm:text-left">{count} reviews</a>
+                            <a href="#" className="w-8 shrink-0 text-right text-sm font-medium leading-none text-[#011d28] hover:underline dark:text-primary-500 sm:w-auto sm:text-left">{count} reviews</a>
                         </div>
                     </div>
                 ))}
@@ -93,8 +105,8 @@ const Rating = () => {
 
         {/* Individual Reviews */}
         <div className="mt-8 space-y-6">
-        {reviewsData.individualReviews.map(({ reviewer, rating, comment, date }) => (
-            <div key={reviewer} className="border-b pb-4">
+        {reviewsData.map(({ reviewer, rating, comment, date }) => (
+            <div key={reviewer} className="border-b pb-4 rounded-2xl shadow-lg p-4">
             <div className="flex items-center gap-2">
                 {/* Render Reviewer Name */}
                 <span className="text-lg font-semibold text-gray-900 dark:text-white">{reviewer}</span>

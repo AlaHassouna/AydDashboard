@@ -3,7 +3,8 @@ import DashboardBox from './components/DashboardBox'
 import { Chart } from "react-google-charts";
 import BestSellingTable from './components/BestSellingTable';
 import { MyContext } from "../../App";
-
+import axios from "axios"
+import { useEffect } from 'react';
 
 
 const Dashboard = () => {
@@ -115,8 +116,100 @@ const Dashboard = () => {
     },
   };
 
+  const [totSales, setTotSales] = useState(); 
+  const [totOrders, setTotOrders] = useState(); 
+  
+  useEffect(() => {
+    // Fonction pour récupérer les catégories
+    const fetchSalesOrders = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/orders/stats', {
+                headers: {
+                    accept: 'application/json',
+                },
+            });
+            setTotSales(response.data.total_revenue); 
+            setTotOrders(response.data.total_orders); 
+        } catch (error) {
+            console.error('Erreur lors de la récupération des orders :', error);
+        }
+    };
+  
+    fetchSalesOrders(); // Appel de la fonction
+  }, []);
+  useEffect(()=>{
+  console.log("totSales ",totSales)
+  console.log("totOrders ",totOrders)
+  },[totSales,totOrders])
+
+  const [totUsers, setTotUsers] = useState(); 
+  
+  useEffect(() => {
+    // Fonction pour récupérer les catégories
+    const fetchTotUsers = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/total-users', {
+                headers: {
+                    accept: 'application/json',
+                },
+            });
+            setTotUsers(response.data.total_users); 
+        } catch (error) {
+            console.error('Erreur lors de la récupération des users :', error);
+        }
+    };
+  
+    fetchTotUsers(); // Appel de la fonction
+  }, []);
+  useEffect(()=>{
+  console.log("totUsers ",totUsers)
+  },[totUsers])
 
 
+  const [TotProducts, setTotProducts  ] = useState(); 
+  
+  useEffect(() => {
+    // Fonction pour récupérer les catégories
+    const fetchTotProducts = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/produits/count', {
+                headers: {
+                    accept: 'application/json',
+                },
+            });
+            setTotProducts(response.data.count); 
+        } catch (error) {
+            console.error('Erreur lors de la récupération des produits :', error);
+        }
+    };
+  
+    fetchTotProducts(); // Appel de la fonction
+  }, []);
+  useEffect(()=>{
+  console.log("TotProducts ",TotProducts)
+  },[TotProducts])
+  const [totReviews, setTotReviews] = useState(); 
+  
+  useEffect(() => {
+    // Fonction pour récupérer les catégories
+    const fetchtotReviews = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/total-reviews', {
+                headers: {
+                    accept: 'application/json',
+                },
+            });
+            setTotReviews(response.data.total_reviews); 
+        } catch (error) {
+            console.error('Erreur lors de la récupération des catégories :', error);
+        }
+    };
+  
+    fetchtotReviews(); // Appel de la fonction
+  }, []);
+  useEffect(()=>{
+  console.log("totReviews ",totReviews)
+  },[totReviews])
   return (
     
 
@@ -189,7 +282,7 @@ const Dashboard = () => {
       }
       grow={true}
       title={"Total Users"}
-      value={450}
+      value={totUsers}
     />
   </div>
 
@@ -219,7 +312,7 @@ const Dashboard = () => {
         </svg>
       }
       title={"Total Orders"}
-      value={1452}
+      value={totOrders}
     />
   </div>
 
@@ -357,7 +450,7 @@ const Dashboard = () => {
 
             </div>
             <h3 className="text-white font-bold text-[25px]">
-              36,787.00
+              {totSales}
               <div className=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white"> Dt</div>
 
             </h3>
@@ -370,11 +463,11 @@ const Dashboard = () => {
                 height="100%" // Assure que le graphique occupe tout l'espace disponible
               />
             </div>
-            <p className="text-[16px] text-sm sm:text-base md:text-lg lg:text-xl text-white opacity-70 flex flex-wrap items-center">
+            {/* <p className="text-[16px] text-sm sm:text-base md:text-lg lg:text-xl text-white opacity-70 flex flex-wrap items-center">
               33,578.25
               <div className="ml-1 inline-flex items-center justify-center text-[10px] sm:text-xs md:text-sm text-white">Dt</div>
               <span className="ml-2 text-[10px] sm:text-sm md:text-base">in last month</span>
-            </p>
+            </p> */}
 
               
 
@@ -397,7 +490,7 @@ const Dashboard = () => {
     </svg>
       }
       title={"Total Products"}
-      value={95}
+      value={TotProducts}
     />
   </div>
 
@@ -423,18 +516,18 @@ const Dashboard = () => {
         </svg>
       }
       title={"Total Reviews"}
-      value={277}
+      value={totReviews}
     />
   </div>
       </div>
 
-      <div
+      {/* <div
         className=" rounded-lg bg-gray-50 dark:bg-gray-800 px-4 h-full mb-4 p-5"
       >
           <div className="flex items-center justify-between">
               <h1 className='text-[18px] font-bold dark:text-white'>Best Selling Products</h1>
 
-                {/* Dots */}
+                
                 <div className="relative ml-auto">
 
                   <button onClick={toggleBestSelling} >
@@ -443,7 +536,7 @@ const Dashboard = () => {
                     </svg>
                   </button>
 
-                {/* /* Dropdown menu */} 
+                
                   {bestSelling && (
                     <div id="dropdownDots" className="absolute top-full right-0  z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                       <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
@@ -743,7 +836,7 @@ const Dashboard = () => {
                           </ul>
                         </div>
                       )}
-                    </div> */}
+                    </div> 
                   
                   <div className="w-full sm:w-auto col text-[14px] font-semibold capitalize relative flex items-center gap-2">
                       <h4 className='dark:text-white'>Search By</h4>
@@ -835,7 +928,7 @@ const Dashboard = () => {
                   </div>
                   <BestSellingTable />
           </div>
-      </div>
+      </div> */}
    </div>
 </div>
   )

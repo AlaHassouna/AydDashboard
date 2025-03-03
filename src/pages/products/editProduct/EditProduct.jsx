@@ -7,81 +7,307 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const EditProduct = () => {
+  // const [categories, setCategories] = useState([
+  //   {
+  //     id: 1,
+  //     Name: "T-Shirts",
+  //     subCategorie: [
+  //       "Cartoons",
+  //       "Films",
+  //       "Animes",
+  //       "Jeux vidéo",
+  //       "Art abstrait",
+  //       "Polo T-Shirts",
+  //       "Casual"
+  //     ],
+  //     Icon: "https://images.pexels.com/photos/2294342/pexels-photo-2294342.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  //   },
+  //   {
+  //     id: 2,
+  //     Name: "Hoodies",
+  //     subCategorie: [
+  //       "Cartoons",
+  //       "Films",
+  //       "Animes",
+  //       "Streetwear",
+  //       "Casual",
+  //       "Saisonnier"
+  //     ],
+  //     Icon: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  //   },
+  //   {
+  //     id: 8,
+  //     Name: "Sweaters",
+  //     SubCategory: [
+  //       "Cartoons",
+  //       "Films",
+  //       "Streetwear",
+  //       "Vintage",
+  //       "Saisonnier",
+  //       "Casual"
+  //     ],
+  //     Icon: "https://images.pexels.com/photos/2613261/pexels-photo-2613261.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  //   },
+  //   {
+  //     id: 10,  // ID unique pour cette catégorie
+  //     Name: "Survêtements",  // Nom de la catégorie
+  //     SubCategory: [
+  //       "Casual",
+  //       "Sport",
+  //       "Streetwear",
+  //       "Saisonnier"
+  //     ],  // Sous-catégories possibles pour les tracksuits
+  //     Icon: "https://images.pexels.com/photos/26664909/pexels-photo-26664909/free-photo-of-les-moments.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  // Icône associée à la catégorie
+  //   },
+    
+  //   {
+  //     id: 7,  // ID unique pour cette catégorie
+  //     Name: "Pantalons",  // Nom de la catégorie
+  //     SubCategory: [
+  //       "Jeans",
+  //       "Chinos",
+  //       "Jogging",
+  //       "Formel"
+  //     ],  // Sous-catégories
+  //     Icon: "https://images.pexels.com/photos/1895943/pexels-photo-1895943.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"  // Icône associée à la catégorie
+  //   },
+  //   {
+  //     id: 3,
+  //     Name: "Vestes",
+  //     subCategorie: [
+  //       "Films",
+  //       "Animes",
+  //       "Logos",
+  //       "Casual",
+  //       "Formel",
+  //       "Détail graphique"
+  //     ],
+  //     Icon: "https://images.pexels.com/photos/16170/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  //   },
+  //   {
+  //     id: 9,
+  //     Name: "Shorts",
+  //     SubCategory: [
+  //       "Casual",
+  //       "Sport",
+  //       "Vintage",
+  //       "Saisonnier",
+  //       "Streetwear"
+  //     ],
+  //     Icon: "https://images.pexels.com/photos/18394309/pexels-photo-18394309/free-photo-of-portrait-d-un-jeune-garcon-avec-une-silhouette-sombre-contre-le-mur.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  //   },
+  //   {
+  //     id: 4,
+  //     Name: "Jupes",
+  //     subCategorie: [
+  //       "Motifs floraux",
+  //       "Casual",
+        
+  //     ],
+  //     Icon: "https://images.pexels.com/photos/1007018/pexels-photo-1007018.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  //   },
+  //   {
+  //     id: 5,
+  //     Name: "Robes",
+  //     subCategorie: [
+  //       "Casual",
+  //       "Élégance minimaliste",
+  //       "Saisonnière",
+  //       "Art moderne"
+  //     ],
+  //     Icon: "https://images.pexels.com/photos/2065195/pexels-photo-2065195.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  //   },
+  //   // {
+  //   //   id: 6,
+  //   //   Name: "Chemises",
+  //   //   SubCategory: [
+  //   //     "Films et séries",
+  //   //     "Art graphique",
+  //   //     "Thème cartoon",
+  //   //     "Vintage"
+  //   //   ],
+  //   //   Icon: "https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=400"
+  //   // },
+    
+    
+    
+    
+  //   {
+  //     id: 10,
+  //     Name: "Accessoires",
+  //     subCategorie: [
+  //       "Écharpes",
+  //       "Chapeaux",
+  //       "Gants",
+  //       "Bijoux",
+  //       "Sacs à main"
+  //     ],
+  //     Icon: "https://images.pexels.com/photos/30076369/pexels-photo-30076369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  //   }
+  // ]); // État pour stocker les catégories
+  const navigate = useNavigate();
+    
+  const [categories, setCategories] = useState([]); // État pour stocker les catégories
+  const [selectedCategory, setSelectedCategory] = useState(); // État pour la catégorie sélectionnée  
   const context= useContext(MyContext)
-  const productObj = [
-    {
-      UID: "C001",
-      Product: "T-shirt",
-      Description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ipsa pariatur eius illum numquam sed vitae modi, vel impedit amet officia provident in facere! Reiciendis ratione impedit eligendi amet laudantium?",
-      Category: "Tops",
-      SubCategory: "Casual Wear",
-      Brand: "AYD",
-      OldPrice: 35.00,
-      Price: 19.99,
-      Stock: 100,
-      Rating: 4.3,
-      Order: 200,
-      Sales: 3000,
-      IsFeatured:true,
-      Image: ["https://timshop.timhortons.ca/cdn/shop/files/693770626664_TShirtIconWhite_Front.png?v=1714573840&width=2048",
-        "https://cms.cloudinary.vpsvc.com/images/c_scale,dpr_auto,f_auto,q_auto:best,t_productPageHeroGalleryTransformation_v2,w_auto/legacy_dam/en-nz/S001463520/PPAGK-254-kids-Tshirt-marquee-001?cb=c7d589026f2c77059bcbd4f875f3dcf0b1a73a0c",
-        "https://www.exist.com.tn/95266-large_default/t-shirt.jpg"],
-      Tags: ["Suite", "Party", "Dress", "Smart", "Man", "Styles"],
-      Variants: [
-        {
-          Size: "S",
-          Colors: [
-            { Color: "Red", Quantity: 10 },
-            { Color: "Blue", Quantity: 15 },
-            { Color: "Green", Quantity: 5 },
-          ],
-        },
-        {
-          Size: "M",
-          Colors: [
-            { Color: "Red", Quantity: 8 },
-            { Color: "Yellow", Quantity: 12 },
-            { Color: "Purple", Quantity: 7 },
-          ],
-        },
-        {
-          Size: "L",
-          Colors: [
-            { Color: "Blue", Quantity: 20 },
-            { Color: "Green", Quantity: 10 },
-            { Color: "Purple", Quantity: 9 },
-          ],
-        },
-        {
-          Size: "XL",
-          Colors: [
-            { Color: "Red", Quantity: 5 },
-            { Color: "Yellow", Quantity: 8 },
-            { Color: "Purple", Quantity: 6 },
-          ],
-        },
-      ],
-      CreatedAt:"02 Feb 2024"
-    },
-  ];
-  const product = productObj[0];
+  const { id } = useParams(); // Récupère l'ID depuis l'URL
+  const [product, setProduct] = useState(null); // État pour les données du produit
+  const [loading, setLoading] = useState(true); // État pour le chargement
+  const [error, setError] = useState(null); // État pour les erreurs
+  const [productData, setProductData] = useState({})
+  const [subCategories, setSubCategories] = useState(productData.SubCategory)
+  const[selectedSubCategoryId,setSelectedSubCategoryId]=useState()
+
+  const [subCategory, setSubCategory] = useState()
+
+  function getCategoryIdByName(categories, name) {
+ 
+    const category = categories.find(category => category.Name.toLowerCase() === name.toLowerCase());
+    return category ? category.id : null; // Retourne l'ID ou null si non trouvé
+  }
+    function getCategoryNameById(categories, id) {
+       const parsedId = typeof id === "string" ? parseInt(id, 10) : id; // Convertit en nombre si nécessaire
+     const category = categories.find(category => category.id === parsedId);
+      return category ? category.Name : null;
+    }
+    function getSubCategoryNameById(subCategories, id) {
+      const parsedId = typeof id === "string" ? parseInt(id, 10) : id; // Convertit en nombre si nécessaire
+    const subCategory = subCategories.find(subCategory => subCategory.id === parsedId);
+     return subCategory ? subCategory.Name : null;
+   }
+   function getSubCategoryIdByName(subCategories, name) {
+   //console.log('Sub categorie dans fonction trouve id',subCategories)
+    const parsedId = subCategories.find(subCategory => subCategory.Name.toLowerCase() === name.toLowerCase());
+   //console.log('parsedId dans fonction trouve id',parsedId)
+  
+    return parsedId ? parsedId.id : null; // Retourne l'ID ou null si non trouvé
+  }
+    useEffect(() => {
+      // Fonction pour récupérer les catégories
+      const fetchCategories = async () => {
+          try {
+              const response = await axios.get('http://127.0.0.1:8000/api/categories', {
+                  headers: {
+                      accept: 'application/json',
+                  },
+              });
+              setCategories(response.data); // Mettre à jour l'état avec les données récupérées
+          } catch (error) {
+              console.error('Erreur lors de la récupération des catégories :', error);
+          }
+      };
+    
+      fetchCategories(); // Appel de la fonction
+
+    }, []);
+    useEffect(()=>{
+    //console.log("categories ",categories)
+    const fetchProduct = async () => {
+      try {
+          const response = await axios.get(`http://127.0.0.1:8000/api/produits/${id}`, {
+              headers: {
+                  accept: 'application/json', // Specify the content type expected from the API
+              },
+          });
+          console.log("response.data", response.data);
+          //console.log("response.data.Category", response.data.Category);
+          setProductData(response.data); // Store the data in the state
+          setSubCategory(response.data.SubCategory);
+
+          // setSelectedSubCategoryId(response.data.SubCategory)
+          const catid= getCategoryIdByName(categories,response.data.Category)
+         if(catid){
+            const response2 = await axios.get(`http://127.0.0.1:8000/api/categories/${catid}/subcategories`, {
+                headers: {
+                    accept: 'application/json', // Specify the content type expected from the API
+                },
+            });
+            //console.log("setSubCategories", response2.data);
+            setSubCategories(response2.data); // Store the data in the state
+            
+          }
+      
+
+          // setSubCategories(response.data.SubCategory); // Store the data in the state
+
+      } catch (error) {
+
+          setError(error.message); // Handle errors
+      }
+  };
+
+  fetchProduct(); // Call the async function
+    },[categories])
+  
+useEffect(()=>{
+  if(subCategory && subCategories){
+    //console.log("subCategory0",subCategory)
+    //console.log("subCategories",subCategories)
+  setSelectedSubCategoryId(getSubCategoryIdByName(subCategories,subCategory))}
+},[subCategories,subCategory])
+
+//   useEffect(() => {
+
+   
+// }, []);
+useEffect(()=>{
+  //console.log("subCategories", subCategories);
+
+},[subCategories])
+  useEffect(() => {
+    if(selectedCategory){
+    const fetchProduct = async (idCateogry) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/categories/${idCateogry}/subcategories`, {
+                headers: {
+                    accept: 'application/json', // Specify the content type expected from the API
+                },
+            });
+            //console.log("setSubCategories deb", response.data);
+            setSubCategories(response.data); // Store the data in the state
+        } catch (error) {
+          setSubCategories("")
+          
+            setError(error.message); // Handle errors
+        }
+    };
+
+    fetchProduct(selectedCategory); // Call the async function
+  }
+}, [selectedCategory]);
+useEffect(() => {
+  //console.log("subCategories",subCategories)
+},[subCategories])
+useEffect(() => {
+  //console.log("productData",productData)
+},[productData])
+const [isInitialized, setIsInitialized] = useState(false); // Nouvelle variable d'état
+// useEffect(() => {
+//   if (product && !isInitialized) {
+//     // Met à jour les données locales avec celles du produit uniquement une fois
+//     setProductData({ ...product });
+//     setIsInitialized(true); // Marque comme initialisé
+//   }
+// }, [product, isInitialized]);
 
 const [files, setFiles] = useState([]);
-const [productData, setProductData] = useState({
-  ...product,
-});
- // Gérer l'ajout de produits
- const handleAddProduct = (e) => {
+
+// //console.log("productData ",productData )
+
+//  // Gérer l'ajout de produits
+ const handlEditProduct = async (e) => {
   e.preventDefault();
+  //console.log(" selectedSubCategoryId", selectedSubCategoryId)
   const newProduct = {
-    UID: 123,
+    
+    // UID: productData.UID,
     Product: productData.Product,
     Description: productData.Description,
-    Category: productData.Category,
-    SubCategory: productData.SubCategory,
+    // subcategoryID: productData.categoryID,
+    SubCategory_id: selectedSubCategoryId,
     Brand: productData.Brand,
     OldPrice: parseFloat(productData.OldPrice),
     Price: parseFloat(productData.Price),
@@ -90,22 +316,49 @@ const [productData, setProductData] = useState({
     Order: 0,
     Sales: 0,
     IsFeatured: productData.IsFeatured,
-    Image: productData.Image, // Assumer que les URLs sont séparées par des virgules
-    Tags: productData.Tags, // Idem pour les tags
-    Variants: productData.Variants, // Les variantes sont déjà sous forme d'objets
-    CreatedAt: new Date().toLocaleDateString() // Format de la date
+    HotProduct: productData.HotProduct,
+    BestSeller: productData.BestSeller,
+    TopRated: productData.TopRated,
+    Gender: productData.Gender,
+    Image: productData.Image, // Utiliser le tableau directement
+    Tags: productData.Tags, // Utiliser le tableau directement
+    Variants: productData.Variants // Utiliser le tableau directement
   };
 
-  console.log(newProduct);
+  //console.log(newProduct);
+  const url = `http://127.0.0.1:8000/api/produits/${id}`;
+
+  try {
+    const response = await axios.put(url, newProduct, {
+      headers: {
+        'Content-Type': 'application/json', // Spécifie le type de contenu envoyé
+      },
+    });
+
+    //console.log('Réponse du serveur:', response.data);
+    setTimeout(() => navigate('/dashboard/products'), 2000);
+
+  } catch (error) {
+    console.error('Erreur lors de l\'envoi des données:', error.response || error.message);
+  }
 };
 // Gérer les changements dans les champs du formulaire
 const handleInputChange = (e) => {
-  const { name, value, type, checked } = e.target;
+  let { name, value, type, checked } = e.target;
+  //console.log(name,":",value)
+  //console.log(typeof value);
+  //console.log(typeof value);
+  // Vérifier si le champ est 'Tags' et s'il s'agit d'une chaîne
+  if (name === "Tags" && typeof value === "string") {
+    // Convertir la chaîne en un tableau
+    value = value.split(",").map(item => item.trim()); // On utilise trim() pour enlever les espaces inutiles
+  }
   setProductData((prevData) => ({
     ...prevData,
-    [name]: type === 'checkbox' ? checked : value
+    [name]: type === "checkbox" ? checked : value,
   }));
 };
+
 // Functions for handling Variants
 const removeSize = (e,index) => {
   e.preventDefault();
@@ -121,7 +374,7 @@ const addSize = (e) => {
   e.preventDefault();
   setProductData((prevData) => ({
     ...prevData,
-    Variants: [...prevData.Variants, { Size: "", Colors: [] }],
+    Variants: [ { Size: "", Colors: [] },...prevData.Variants],
   }));
 };
 
@@ -177,8 +430,8 @@ const removeColor = (e, index, colorIndex) => {
 
 
 useEffect(() => {
-  console.log("Variants updated:", productData.Variants);
-}, [productData.Variants]);
+  //console.log("Variants updated:", productData.variants);
+}, [productData.variants]);
     
 
     // cloudinary
@@ -208,7 +461,7 @@ const serverOptions = {
 
     return {
       abort: () => {
-        console.log("Upload canceled");
+        //console.log("Upload canceled");
         abort();
       },
     };
@@ -233,6 +486,38 @@ const removeImage = (e,index) => {
           });
          });
         }
+        const handleSelectChangeSub = (e) => {
+          const newSubCategoryId = e.target.value; // Récupère la nouvelle valeur
+
+          setSelectedSubCategoryId(newSubCategoryId)
+          //console.log('retour recherche name category by id categories:', categories); // Debug pour vérifier l'ID
+          //console.log('retour recherche name category by id newCategoryId:', newSubCategoryId); // Debug pour vérifier l'ID
+
+          
+          // setProductData((prevData) => ({
+          //   ...prevData, // Conserve les autres propriétés de productData
+          //   SubCategory: , // Met à jour uniquement categoryId
+          // }));
+          //console.log('recherche sub category:', getSubCategoryNameById(subCategories,newSubCategoryId)); // Debug pour vérifier l'ID
+          setProductData((prevData) => ({
+            ...prevData, // Conserve les autres propriétés de productData
+            SubCategory: getSubCategoryNameById(subCategories,newSubCategoryId), // Met à jour uniquement categoryId
+          }));
+        };
+
+        const handleSelectChange = (e) => {
+          const newCategoryId = e.target.value; // Récupère la nouvelle valeur
+          //console.log('retour recherche name category by id categories:', categories); // Debug pour vérifier l'ID
+          //console.log('retour recherche name category by id newCategoryId:', newCategoryId); // Debug pour vérifier l'ID
+
+          
+          setProductData((prevData) => ({
+            ...prevData, // Conserve les autres propriétés de productData
+            Category: getCategoryNameById(categories,newCategoryId), // Met à jour uniquement categoryId
+          }));
+          setSelectedCategory(newCategoryId)
+          //console.log('Selected Category ID:', newCategoryId); // Debug pour vérifier l'ID
+        };
   return (
       <div
       name={`mt-20 p-1   rounded-lg dark:bg-gray-900 ${
@@ -251,7 +536,7 @@ const removeImage = (e,index) => {
                          
                           <li>
                            
-                              <Link to="/dashboard/products" className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Products</Link>
+                              <Link to="/dashboard/products" className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Product</Link>
                             
                           </li>
                           <li aria-current="page">
@@ -274,26 +559,63 @@ const removeImage = (e,index) => {
         >
           <section >
     <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-        <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new product</h2>
+        <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Edit product</h2>
         <form action="#">
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                 <div className="sm:col-span-2">
                     <label htmlFor="Product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
                     <input type="text" name="Product" id="Product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required=""
-                    value={productData.Product} onChange={handleInputChange}
+                    value={productData.Product || ""} onChange={handleInputChange}
                     />
                 </div>
                 <div>
                     <label htmlFor="Category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                    <select id="Category" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                        <option selected="">Select category</option>
-                        <option value="TV">TV/Monitors</option>
-                        <option value="PC">PC</option>
-                        <option value="GA">Gaming/Console</option>
-                        <option value="PH">Phones</option>
-                    </select>
+                    <select
+                  id="Category"
+                  value={productData.Category}
+                  // ID de la catégorie sélectionnée
+                  onChange={handleSelectChange} // Gestion de la sélection
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                  <option value={productData.Category} disabled selected>
+                    {productData.Category ? `${productData.Category}` : "Sélectionnez une catégorie"}
+                  </option>
+                 
+                  {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                      {category.Name}
+                    </option>
+                    
+                
+
+                  ))}
+                </select> 
                 </div>
+                
                 <div>
+                    <label htmlFor="SubCategory" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SubCategory</label>
+                    {subCategories && (
+    <select
+      id="SubCategory"
+      value={productData.SubCategory}
+      onChange={handleSelectChangeSub} // Gestion de la sélection
+      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+    >
+      
+      <option value={productData.SubCategory} disabled selected>
+                    {productData.SubCategory ? `${productData.SubCategory}` : "Select SubCategory"}
+      </option>
+      {subCategories.map((SubCategory) => (
+        <option key={SubCategory.id} value={SubCategory.id}>
+          {SubCategory.Name}
+        </option>
+      ))}
+    </select>
+  ) }
+
+                    
+                </div>
+                {/* <div>
                     <label htmlFor="SubCategory" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sub Category</label>
                     <select id="SubCategory" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         <option selected="">Select sub category</option>
@@ -302,7 +624,7 @@ const removeImage = (e,index) => {
                         <option value="GA">Gaming/Console</option>
                         <option value="PH">Phones</option>
                     </select>
-                </div>
+                </div> */}
                 
                 <div className="w-full">
                     <label htmlFor="OldPrice" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Old Price</label>
@@ -349,12 +671,26 @@ const removeImage = (e,index) => {
                 </div>
                 
                 
-                <div className="sm:col-span-2">
-                    <label htmlFor="Tags" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags (comma separated)</label>
-                    <input type="text" id="Tags" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tag1,tag2,tag3,....." required=""
-                    name="Tags" value={productData.Tags} onChange={handleInputChange}
-                    />
-                </div>
+                <div>
+                                <label htmlFor="Tags" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags</label>
+                                <input type="text" id="Tags" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tag1,tag2,tag3,....." required
+                                name="Tags" value={productData.Tags} onChange={handleInputChange}/>
+                            </div> 
+                            <div className="w-full">
+                                <label htmlFor="Gender" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                <select
+                                  id="Gender"
+                                  value={productData.Gender}
+                                  onChange={(e) => setProductData({ ...productData, Gender: e.target.value })}
+                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                >
+                                  <option value="" disabled>
+                                    Gender
+                                  </option>
+                                  <option value="femme">Femme</option>
+                                  <option value="homme">Homme</option>
+                                </select>
+                            </div>
                 <div className="sm:col-span-2">
                     <label htmlFor="Description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                     <textarea id="Description" name="Description" rows="8" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Your description here" value={productData.Description} onChange={handleInputChange} 
@@ -372,7 +708,7 @@ const removeImage = (e,index) => {
           Add Size
         </button>
   
-       {productData.Variants.map((variant, index) => (
+       {productData.Variants?.map((variant, index) => (
   <div key={index} className="my-6 p-4 border border-gray-300 rounded">
     <div className="flex justify-between items-center">
       <label
@@ -413,7 +749,7 @@ const removeImage = (e,index) => {
           <input
             type="number"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            placeholder="Quantity"
+            placeholder="quantity"
             value={color.Quantity}
             onChange={(e) =>
               updateColor(
@@ -443,17 +779,70 @@ const removeImage = (e,index) => {
 ))}
 
       </div>
-            <div className="flex mt-2">
+      <div className="flex mt-2">
+                            <div className="flex items-center h-5">
+                                <input id="helper-checkbox" aria-describedby="helper-checkbox-text" name="IsFeatured" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                checked={productData.IsFeatured} onChange={handleInputChange} 
+                                />
+                            </div>
+                            <div className="ms-2 text-sm">
+                                <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">Is featured</label>
+                                <p id="helper-checkbox-text" className="text-xs font-normal text-gray-500 dark:text-gray-300">Mark this product to feature it on the homepage or in promotions.</p>
+                            </div>
+                         </div>
+                         <div className="flex mt-2">
+                            <div className="flex items-center h-5">
+                                <input id="helper-checkbox" aria-describedby="helper-checkbox-text" name="HotProduct" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                checked={productData.HotProduct} onChange={handleInputChange} 
+                                />
+                            </div>
+                            <div className="ms-2 text-sm">
+                                <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">Hot Product</label>
+                            </div>
+                          </div>
+                          <div className="flex mt-2">
+                            <div className="flex items-center h-5">
+                                <input id="helper-checkbox" aria-describedby="helper-checkbox-text" name="BestSeller" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                checked={productData.BestSeller} onChange={handleInputChange} 
+                                />
+                            </div>
+                            <div className="ms-2 text-sm">
+                                <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">BestSeller</label>
+                                {/* <p id="helper-checkbox-text" className="text-xs font-normal text-gray-500 dark:text-gray-300">Mark this product to feature it on the homepage or in promotions.</p> */}
+                            </div>
+                         </div>
+                         <div className="flex mt-2">
+                            <div className="flex items-center h-5">
+                                <input id="helper-checkbox" aria-describedby="helper-checkbox-text" name="TopRated" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                checked={productData.TopRated} onChange={handleInputChange} 
+                                />
+                            </div>
+                            <div className="ms-2 text-sm">
+                                <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">TopRated</label>
+                                {/* <p id="helper-checkbox-text" className="text-xs font-normal text-gray-500 dark:text-gray-300">Mark this product to feature it on the homepage or in promotions.</p> */}
+                            </div>
+                         
+            </div>
+             {/* <div className="flex mt-2">
               <div className="flex items-center h-5">
-                  <input id="helper-checkbox" aria-describedby="helper-checkbox-text" name="IsFeatured" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  checked={productData.IsFeatured} onChange={handleInputChange} 
+                  <input id="helper-checkbox" aria-describedby="helper-checkbox-text" name="BestSeller" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  checked={productData.BestSeller} onChange={handleInputChange} 
                   />
               </div>
               <div className="ms-2 text-sm">
-                  <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">Is featured</label>
-                  <p id="helper-checkbox-text" className="text-xs font-normal text-gray-500 dark:text-gray-300">Mark this product to feature it on the homepage or in promotions.</p>
+                  <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">Best Seller</label>
               </div>
-          </div>
+            </div>
+            <div className="flex mt-2">
+              <div className="flex items-center h-5">
+                  <input id="helper-checkbox" aria-describedby="helper-checkbox-text" name="TopRated" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  checked={productData.TopRated} onChange={handleInputChange} 
+                  />
+              </div>
+              <div className="ms-2 text-sm">
+                  <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">Top Rated</label>
+              </div>
+            </div> */}
           <div>
   <h2 className="block my-2 text-sm font-medium text-gray-900 dark:text-white">
     Upload Images
@@ -468,10 +857,10 @@ const removeImage = (e,index) => {
     labelIdle='Glissez et déposez vos fichiers ou <span className="filepond--label-action">Parcourir</span>'
   />
 
-  {productData.Image.length > 0 && (
+  {productData.Image?.length > 0 && (
     <div className="">
       <div className="grid grid-cols-3 gap-4 mt-2">
-        {productData.Image.map((url, index) => (
+        {productData.Image?.map((url, index) => (
           <div key={index} className="relative">
             <img
               src={url}
@@ -496,9 +885,9 @@ const removeImage = (e,index) => {
 
 
             <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-            onClick={handleAddProduct}
+            onClick={handlEditProduct}
             >
-                Add product
+                Update product
             </button>
         </form>
     </div>

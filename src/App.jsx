@@ -15,6 +15,15 @@ import ProductDetails from "./pages/products/productDetails/ProductDetails";
 import AddProduct from "./pages/products/addProduct/AddProduct";
 import EditProduct from "./pages/products/editProduct/EditProduct";
 import Categories from "./pages/categories/Categories";
+import CategorieEdit from "./pages/categories/categorieEdit/CategorieEdit";
+import AddCategorie from "./pages/categories/addCategorie/AddCategorie";
+import Subcategories from "./pages/subcategories/subcategories";
+import SubCategorieEdit from "./pages/subcategories/subCategorieEdit/SubCategorieEdit";
+import AddSubCategorie from "./pages/subcategories/addSubCategorie/AddSubCategorie";
+import Users from "./pages/users/Users";
+import UsersEdit from "./pages/users/usersEdit/UsersEdit";
+import Orders from "./pages/orders/Orders";
+import EditOrder from "./pages/orders/editOrder/EditOrder";
 
 const MyContext=createContext();
 
@@ -22,13 +31,28 @@ const MyContext=createContext();
 
 function App() {
   const [isToggleSidebar,setIsToggleSidebar]=useState(true);
-  const [isLogin,setIsLogin]=useState(true);
+  const [isLogin,setIsLogin]=useState(false);
+  const [user,setUser]=useState({});
   const values={
     isToggleSidebar,
     setIsToggleSidebar,
     isLogin,
-    setIsLogin
+    setIsLogin,
+    user,
+    setUser
   }
+  useEffect(() => {
+    // Vérifie si l'utilisateur est connecté en vérifiant le localStorage
+    const storedIsLogin = localStorage.getItem("isLoggedIn");
+    const storedUser = localStorage.getItem("user");
+    if (storedIsLogin === "true") {
+      setIsLogin(true);
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));  // Récupérer l'utilisateur depuis localStorage
+        console.log(storedUser)
+      }
+    }
+  }, [isLogin]);
   useEffect(() => {
     const updateSidebarState = () => {
       const isSmallOrMediumScreen = window.matchMedia("(max-width: 768px)").matches; // Modifiez la taille selon vos besoins
@@ -100,7 +124,20 @@ function App() {
                       <Route path="/dashboard/products/edit/:id" element={<EditProduct/>} />
                       
                       <Route path="/dashboard/categories" element={<Categories/>} />
+                      <Route path="/dashboard/categories/edit/:id" element={<CategorieEdit/>} />
+                      <Route path="/dashboard/categories/add" element={<AddCategorie/>} />
                       
+
+                      <Route path="/dashboard/subcategories" element={<Subcategories/>} />
+                      <Route path="/dashboard/subcategories/edit/:id" element={<SubCategorieEdit/>} />
+                      <Route path="/dashboard/subcategories/add" element={<AddSubCategorie/>} />
+
+                      <Route path="/dashboard/users" element={<Users/>} />
+                      <Route path="/dashboard/users/edit/:id" element={<UsersEdit/>} />
+
+                      <Route path="/dashboard/orders" element={<Orders/>} />
+                      <Route path="/dashboard/orders/edit/:id" element={<EditOrder/>} />
+
                 </Routes>
               </div>
               {

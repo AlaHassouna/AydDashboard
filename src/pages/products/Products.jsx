@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { MyContext } from '../../App';
 import DashboardBox from '../dashboard/components/DashboardBox';
 import Chart from 'react-google-charts';
 import BestSellingTable from '../dashboard/components/BestSellingTable';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios'
 function Products() {
     const [box1, setBox1] = useState(false);
   // const [brandBy, setBrandBy] = useState(false);
@@ -113,7 +113,57 @@ function Products() {
       },
     },
   }
-                                            
+  const [totSales, setTotSales] = useState(); 
+  const [totOrders, setTotOrders] = useState(); 
+  
+  useEffect(() => {
+    // Fonction pour récupérer les catégories
+    const fetchSalesOrders = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/orders/stats', {
+                headers: {
+                    accept: 'application/json',
+                },
+            });
+            setTotSales(response.data.total_revenue); 
+            setTotOrders(response.data.total_orders); 
+        } catch (error) {
+            console.error('Erreur lors de la récupération des orders :', error);
+        }
+    };
+  
+    fetchSalesOrders(); // Appel de la fonction
+  }, []);
+  useEffect(()=>{
+  console.log("totSales ",totSales)
+  console.log("totOrders ",totOrders)
+  },[totSales,totOrders])
+
+
+
+
+  const [TotProducts, setTotProducts  ] = useState(); 
+  
+  useEffect(() => {
+    // Fonction pour récupérer les catégories
+    const fetchTotProducts = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/produits/count', {
+                headers: {
+                    accept: 'application/json',
+                },
+            });
+            setTotProducts(response.data.count); 
+        } catch (error) {
+            console.error('Erreur lors de la récupération des produits :', error);
+        }
+    };
+  
+    fetchTotProducts(); // Appel de la fonction
+  }, []);
+  useEffect(()=>{
+  console.log("TotProducts ",TotProducts)
+  },[TotProducts])                                          
   return (
     <div
       className={`mt-10 p-1   rounded-lg dark:bg-gray-900 ${
@@ -186,7 +236,7 @@ function Products() {
       }
       grow={true}
       title={"Total Sales"}
-      value={7500}
+      value={ totSales }
     />
   </div>
 
@@ -217,7 +267,7 @@ function Products() {
         
       }
       title={"Total Orders"}
-      value={1452}
+      value={totOrders}
     />
   </div>
 
@@ -238,7 +288,7 @@ function Products() {
     
       }
       title={"Total Products"}
-      value={95}
+      value={TotProducts}
     />
   </div>
 
