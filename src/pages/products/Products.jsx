@@ -6,6 +6,8 @@ import BestSellingTable from '../dashboard/components/BestSellingTable';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 function Products() {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
     const [box1, setBox1] = useState(false);
   // const [brandBy, setBrandBy] = useState(false);
   const [bestSelling, setBestSelling] = useState(false);
@@ -120,7 +122,7 @@ function Products() {
     // Fonction pour récupérer les catégories
     const fetchSalesOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/orders/stats', {
+            const response = await axios.get(`${API_URL}/orders/stats`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -148,7 +150,7 @@ function Products() {
     // Fonction pour récupérer les catégories
     const fetchTotProducts = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/produits/count', {
+            const response = await axios.get(`${API_URL}/produits/count`, {
                 headers: {
                     accept: 'application/json',
                 },

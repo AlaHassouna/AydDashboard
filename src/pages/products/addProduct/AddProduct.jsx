@@ -11,6 +11,8 @@
   registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
   
   const AddProduct = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
     const context= useContext(MyContext)
     const [uploadedImages, setUploadedImages] = useState([]);   
     const [variants, setVariants] = useState([]); // État pour les variantes
@@ -22,7 +24,7 @@
       // Fonction pour récupérer les catégories
       const fetchCategories = async () => {
           try {
-              const response = await axios.get('http://127.0.0.1:8000/api/categories', {
+              const response = await axios.get(`${API_URL}/categories`, {
                   headers: {
                       accept: 'application/json',
                   },
@@ -112,7 +114,7 @@
     console.log("newProduct final",newProduct)
     
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/produits', newProduct, {
+      const response = await axios.post(`${API_URL}/produits`, newProduct, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -240,7 +242,7 @@ const removeSize = (e,index) => {
       try {
           // const catid= getCategoryIdByName(categories,selectedCategory)
           if(selectedCategory){
-            const response2 = await axios.get(`http://127.0.0.1:8000/api/categories/${selectedCategory}/subcategories`, {
+            const response2 = await axios.get(`${API_URL}/categories/${selectedCategory}/subcategories`, {
                 headers: {
                     accept: 'application/json', // Specify the content type expected from the API
                 },

@@ -6,6 +6,8 @@
         import { MyContext } from '../../App';
         import axios from 'axios'
         const Login = () => {
+          const API_URL = import.meta.env.VITE_API_BASE_URL;
+
           const context= useContext(MyContext)
           const [errorMessage, setErrorMessage] = useState(false);
           
@@ -23,7 +25,7 @@
           const handleSubmit = async (e) => {
             e.preventDefault();
             try {
-              const response = await axios.post("http://localhost:8000/api/users/login", formData, {
+              const response = await axios.post(`${API_URL}/users/login`, formData, {
                   headers: {
                       "Content-Type": "application/json",
                   },

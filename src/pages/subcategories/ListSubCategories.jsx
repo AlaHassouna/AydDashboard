@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from "axios"
 
 const ListSubCategories = ({subCategories,setSubCategories }) => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
     const [activePage, setActivePage] = useState(1);
     // const [subCategories, setSubCategories] = useState(initialCategories); 
     const [selectedSubCategory, setSelectedSubCategory] = useState(null);
@@ -27,7 +29,7 @@ const ListSubCategories = ({subCategories,setSubCategories }) => {
     };
     const handleDeleteSubCategory = (subcategoryId) => {
       axios
-        .delete(`http://127.0.0.1:8000/api/subcategories/${subcategoryId}`)
+        .delete(`${API_URL}/subcategories/${subcategoryId}`)
         .then((response) => {
           console.log("subcategoryId", subcategoryId);
           setMessage(`SubCategory supprimée avec succès : ${response.data.message || 'Succès'}`);

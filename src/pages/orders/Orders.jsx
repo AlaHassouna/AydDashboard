@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import ListOrders from './ListOrders';
 
 const Orders = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   // const [brandBy, setBrandBy] = useState(false);
   const [orders, setOders] = useState(false);
   const context= useContext(MyContext)
@@ -18,7 +20,7 @@ const Orders = () => {
     // Fonction pour récupérer les catégories
     const fetchSalesOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/orders/stats', {
+            const response = await axios.get(`${API_URL}/orders/stats`, {
                 headers: {
                     accept: 'application/json',
                 },

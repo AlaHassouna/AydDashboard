@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const AddSubCategorie = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
     const [subcategoryName, setSubCategoryName] = useState(); // Nom de la catégorie
 
     const [error, setError] = useState('');
@@ -38,7 +40,7 @@ const AddSubCategorie = () => {
           category_id: selectedCategoryId, // URL de l'icône (générée après téléversement)
         };
     
-        await axios.post(`http://127.0.0.1:8000/api/subcategories`, newSubCategory, {
+        await axios.post(`${API_URL}/subcategories`, newSubCategory, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -57,7 +59,7 @@ const AddSubCategorie = () => {
       // Fonction pour récupérer les catégories
       const fetchCategories = async () => {
           try {
-              const response = await axios.get('http://127.0.0.1:8000/api/categories', {
+              const response = await axios.get(`${API_URL}/categories`, {
                   headers: {
                       accept: 'application/json',
                   },

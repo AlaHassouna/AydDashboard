@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import ListUsers from './ListUsers';
 
 const Users = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
     // const [brandBy, setBrandBy] = useState(false);
     const [users, setUsers] = useState(false);
@@ -19,7 +20,7 @@ useEffect(() => {
   // Fonction pour récupérer les catégories
   const fetchTotUsers = async () => {
       try {
-          const response = await axios.get('http://localhost:8000/api/total-users', {
+          const response = await axios.get(`${API_URL}/total-users`, {
               headers: {
                   accept: 'application/json',
               },

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from "axios"
 import { useEffect } from 'react';
 const ListCategories = ({categories,setCategories }) => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   const [activePage, setActivePage] = useState(1);
   // const [categories, setCategories] = useState(initialCategories); 
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -27,7 +29,7 @@ const ListCategories = ({categories,setCategories }) => {
   };
   const handleDeleteCategory = (categoryId) => {
     axios
-      .delete(`http://127.0.0.1:8000/api/categories/${categoryId}`)
+      .delete(`${API_URL}/categories/${categoryId}`)
       .then((response) => {
         if(response.data!="Suppresion impossible"){
           console.log("response",response)

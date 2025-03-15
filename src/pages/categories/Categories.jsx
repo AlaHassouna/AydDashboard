@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 const Categories = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
     const [box1, setBox1] = useState(false);
     // const [brandBy, setBrandBy] = useState(false);
     const [categories, setCategories] = useState(false);
@@ -165,7 +167,7 @@ const [mockCategories, setMockCategories] = useState([]); // État pour stocker 
     // Fonction pour récupérer les catégories
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/categories', {
+            const response = await axios.get(`${API_URL}/categories`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -241,7 +243,7 @@ console.log("categories ",mockCategories)
       // Fonction pour récupérer les catégories
       const fetchtotReviews = async () => {
           try {
-              const response = await axios.get('http://127.0.0.1:8000/api/categories/count', {
+              const response = await axios.get(`${API_URL}/categories/count`, {
                   headers: {
                       accept: 'application/json',
                   },

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 
 const BestSellingTable = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
  
 //   const [products, setProducts] = useState([
 //     {
@@ -605,7 +606,7 @@ const [products, setProducts] = useState([])
     // Fonction pour récupérer les catégories
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/produits', {
+            const response = await axios.get(`${API_URL}/produits`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -679,7 +680,7 @@ useEffect(() => {
     setLoading(true);
     
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/produits/${productIdToDelete}`);
+      await axios.delete(`${API_URL}/produits/${productIdToDelete}`);
       // Mise à jour de l'état des produits
     setProducts((prevProducts) => 
       prevProducts.filter((product) => product.id !== productIdToDelete)

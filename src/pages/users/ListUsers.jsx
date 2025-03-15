@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 const ListUsers = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
     const [users, setUsers] = useState(); 
   const [activePage, setActivePage] = useState(1);
       // const [subCategories, setSubCategories] = useState(initialCategories); 
@@ -28,7 +30,7 @@ useEffect(() => {
   // Fonction pour récupérer les catégories
   const fetchTotUsers = async () => {
       try {
-          const response = await axios.get('http://localhost:8000/api/users', {
+          const response = await axios.get(`${API_URL}/users`, {
               headers: {
                   accept: 'application/json',
               },

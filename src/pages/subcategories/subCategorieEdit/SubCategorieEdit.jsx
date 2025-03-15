@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const SubCategorieEdit = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
     const [subcategoryName, setSubCategoryName] = useState(); // Nom de la catégorie
 
@@ -18,7 +19,7 @@ const SubCategorieEdit = () => {
     useEffect(() => {
       const fetchCategory = async () => {
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/subcategories/${id}`, {
+          const response = await axios.get(`${API_URL}/subcategories/${id}`, {
             headers: {
               accept: 'application/json',
             },
@@ -58,7 +59,7 @@ const SubCategorieEdit = () => {
           category_id: selectedCategoryId, // URL de l'icône (générée après téléversement)
         };
     
-        await axios.put(`http://127.0.0.1:8000/api/subcategories/${id}`, updatedSubCategory, {
+        await axios.put(`${API_URL}/subcategories/${id}`, updatedSubCategory, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -77,7 +78,7 @@ const SubCategorieEdit = () => {
       // Fonction pour récupérer les catégories
       const fetchCategories = async () => {
           try {
-              const response = await axios.get('http://127.0.0.1:8000/api/categories', {
+              const response = await axios.get(`${API_URL}/categories`, {
                   headers: {
                       accept: 'application/json',
                   },

@@ -118,25 +118,66 @@ function App() {
                           !isLogin ? <SignUp /> : <Navigate to="/dashboard" replace />
                         }
                       />
-                      <Route path="/dashboard/products/:id" element={<ProductDetails/>} />
-                      <Route path="/dashboard/products" element={<Products/>} />
-                      <Route path="/dashboard/products/add" element={<AddProduct/>} />
-                      <Route path="/dashboard/products/edit/:id" element={<EditProduct/>} />
-                      
-                      <Route path="/dashboard/categories" element={<Categories/>} />
-                      <Route path="/dashboard/categories/edit/:id" element={<CategorieEdit/>} />
-                      <Route path="/dashboard/categories/add" element={<AddCategorie/>} />
-                      
+                      <Route
+                          path="/dashboard/products/:id"
+                          element={isLogin ? <ProductDetails /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/products"
+                          element={isLogin ? <Products /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/products/add"
+                          element={isLogin ? <AddProduct /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/products/edit/:id"
+                          element={isLogin ? <EditProduct /> : <Navigate to="/login" replace />}
+                        />
 
-                      <Route path="/dashboard/subcategories" element={<Subcategories/>} />
-                      <Route path="/dashboard/subcategories/edit/:id" element={<SubCategorieEdit/>} />
-                      <Route path="/dashboard/subcategories/add" element={<AddSubCategorie/>} />
+                        <Route
+                          path="/dashboard/categories"
+                          element={isLogin ? <Categories /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/categories/edit/:id"
+                          element={isLogin ? <CategorieEdit /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/categories/add"
+                          element={isLogin ? <AddCategorie /> : <Navigate to="/login" replace />}
+                        />
 
-                      <Route path="/dashboard/users" element={<Users/>} />
-                      <Route path="/dashboard/users/edit/:id" element={<UsersEdit/>} />
+                        <Route
+                          path="/dashboard/subcategories"
+                          element={isLogin ? <Subcategories /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/subcategories/edit/:id"
+                          element={isLogin ? <SubCategorieEdit /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/subcategories/add"
+                          element={isLogin ? <AddSubCategorie /> : <Navigate to="/login" replace />}
+                        />
 
-                      <Route path="/dashboard/orders" element={<Orders/>} />
-                      <Route path="/dashboard/orders/edit/:id" element={<EditOrder/>} />
+                        <Route
+                          path="/dashboard/users"
+                          element={isLogin ? <Users /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/users/edit/:id"
+                          element={isLogin ? <UsersEdit /> : <Navigate to="/login" replace />}
+                        />
+
+                        <Route
+                          path="/dashboard/orders"
+                          element={isLogin ? <Orders /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                          path="/dashboard/orders/edit/:id"
+                          element={isLogin ? <EditOrder /> : <Navigate to="/login" replace />}
+                        />
 
                 </Routes>
               </div>

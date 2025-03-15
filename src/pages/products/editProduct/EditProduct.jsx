@@ -10,6 +10,8 @@ import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const EditProduct = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   // const [categories, setCategories] = useState([
   //   {
   //     id: 1,
@@ -189,7 +191,7 @@ const EditProduct = () => {
       // Fonction pour récupérer les catégories
       const fetchCategories = async () => {
           try {
-              const response = await axios.get('http://127.0.0.1:8000/api/categories', {
+              const response = await axios.get(`${API_URL}/categories`, {
                   headers: {
                       accept: 'application/json',
                   },
@@ -207,7 +209,7 @@ const EditProduct = () => {
     //console.log("categories ",categories)
     const fetchProduct = async () => {
       try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/produits/${id}`, {
+          const response = await axios.get(`${API_URL}/produits/${id}`, {
               headers: {
                   accept: 'application/json', // Specify the content type expected from the API
               },
@@ -220,7 +222,7 @@ const EditProduct = () => {
           // setSelectedSubCategoryId(response.data.SubCategory)
           const catid= getCategoryIdByName(categories,response.data.Category)
          if(catid){
-            const response2 = await axios.get(`http://127.0.0.1:8000/api/categories/${catid}/subcategories`, {
+            const response2 = await axios.get(`${API_URL}/categories/${catid}/subcategories`, {
                 headers: {
                     accept: 'application/json', // Specify the content type expected from the API
                 },
@@ -261,7 +263,7 @@ useEffect(()=>{
     if(selectedCategory){
     const fetchProduct = async (idCateogry) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/categories/${idCateogry}/subcategories`, {
+            const response = await axios.get(`${API_URL}/categories/${idCateogry}/subcategories`, {
                 headers: {
                     accept: 'application/json', // Specify the content type expected from the API
                 },
@@ -326,7 +328,7 @@ const [files, setFiles] = useState([]);
   };
 
   //console.log(newProduct);
-  const url = `http://127.0.0.1:8000/api/produits/${id}`;
+  const url = `${API_URL}/produits/${id}`;
 
   try {
     const response = await axios.put(url, newProduct, {

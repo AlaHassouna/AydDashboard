@@ -5,6 +5,8 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const ProductDetails = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   const context = useContext(MyContext);
   const [product, setProduct] = useState(null);
   const { id } = useParams(); // Récupère l'ID depuis l'URL
@@ -12,7 +14,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/produits/${id}`, {
+        const response = await axios.get(`${API_URL}/produits/${id}`, {
           headers: {
             accept: 'application/json',
           },

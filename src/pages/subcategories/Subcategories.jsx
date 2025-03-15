@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import ListSubCategories from './ListSubCategories';
 
 const Subcategories = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
     const [box1, setBox1] = useState(false);
     // const [brandBy, setBrandBy] = useState(false);
     const [bestSelling, setBestSelling] = useState(false);
@@ -25,7 +27,7 @@ const [subCategories, setSubCategories] = useState([]); // État pour stocker le
     // Fonction pour récupérer les catégories
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/subcategories', {
+            const response = await axios.get(`${API_URL}/subcategories`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -101,7 +103,7 @@ console.log("subCategories ",subCategories)
       // Fonction pour récupérer les catégories
       const fetchtotReviews = async () => {
           try {
-              const response = await axios.get('http://127.0.0.1:8000/api/subcategories/count', {
+              const response = await axios.get(`${API_URL}/subcategories/count`, {
                   headers: {
                       accept: 'application/json',
                   },

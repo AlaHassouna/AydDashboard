@@ -11,6 +11,8 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const CategorieEdit = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   const [file, setFile] = useState();
   const [categoryName, setCategoryName] = useState(); // Nom de la catégorie
   const [categoryID, setCategoryID] = useState(null); // ID de la catégorie
@@ -36,7 +38,7 @@ const CategorieEdit = () => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/categories/${id}`, {
+        const response = await axios.get(`${API_URL}/categories/${id}`, {
           headers: {
             accept: 'application/json',
           },
@@ -73,7 +75,7 @@ const CategorieEdit = () => {
         Icon: categoryImg, // URL de l'icône (générée après téléversement)
       };
   
-      await axios.put(`http://127.0.0.1:8000/api/categories/${id}`, updatedCategory, {
+      await axios.put(`${API_URL}/categories/${id}`, updatedCategory, {
         headers: {
           'Content-Type': 'application/json',
         },

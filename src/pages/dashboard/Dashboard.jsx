@@ -5,9 +5,12 @@ import BestSellingTable from './components/BestSellingTable';
 import { MyContext } from "../../App";
 import axios from "axios"
 import { useEffect } from 'react';
+import ListOrdersConf from './components/ListOrdersConf';
 
 
 const Dashboard = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   const [box1, setBox1] = useState(false);
   // const [brandBy, setBrandBy] = useState(false);
   const [bestSelling, setBestSelling] = useState(false);
@@ -123,7 +126,7 @@ const Dashboard = () => {
     // Fonction pour récupérer les catégories
     const fetchSalesOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/orders/stats', {
+            const response = await axios.get(`${API_URL}/orders/stats`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -148,7 +151,7 @@ const Dashboard = () => {
     // Fonction pour récupérer les catégories
     const fetchTotUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/total-users', {
+            const response = await axios.get(`${API_URL}/total-users`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -172,7 +175,7 @@ const Dashboard = () => {
     // Fonction pour récupérer les catégories
     const fetchTotProducts = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/produits/count', {
+            const response = await axios.get(`${API_URL}/produits/count`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -194,7 +197,7 @@ const Dashboard = () => {
     // Fonction pour récupérer les catégories
     const fetchtotReviews = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/total-reviews', {
+            const response = await axios.get(`${API_URL}/total-reviews`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -520,7 +523,7 @@ const Dashboard = () => {
     />
   </div>
       </div>
-
+      <ListOrdersConf/>
       {/* <div
         className=" rounded-lg bg-gray-50 dark:bg-gray-800 px-4 h-full mb-4 p-5"
       >

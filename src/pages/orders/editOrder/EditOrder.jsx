@@ -3,6 +3,8 @@ import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 const EditOrder = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   const { id } = useParams(); // Récupérer l'ID de la commande depuis l'URL
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,7 @@ const EditOrder = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/order/${id}`);
+        const response = await axios.get(`${API_URL}/order/${id}`);
         console.log("response::::",response.data)
         setOrder(response.data);
         setGouvernorat(response.data.Gouvernorat);
@@ -75,7 +77,7 @@ const EditOrder = () => {
         Panier: panier,
       };
 
-      const response = await axios.put(`http://localhost:8000/api/order/${id}`, updatedOrder, {
+      const response = await axios.put(`${API_URL}/order/${id}`, updatedOrder, {
         headers: {
           accept: "application/json",
         },

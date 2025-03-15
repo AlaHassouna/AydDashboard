@@ -11,6 +11,9 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const AddCategorie = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  // console.log("API_URL :",API_URL)
+  
   const [files, setFiles] = useState([]);
   const [categoryName, setCategoryName] = useState(); // Nom de la catégorie
   const [categoryImg, setCategoryImg] = useState(null); // ID de la catégorie
@@ -73,7 +76,7 @@ const AddCategorie = () => {
         Icon: categoryImg, // URL de l'icône (générée après téléversement)
       };
   
-      await axios.post(`http://127.0.0.1:8000/api/categories`, updatedCategory);
+      await axios.post(`${API_URL}/categories`, updatedCategory);
   
       setSuccess('Catégorie ajouté avec succès.');
       setTimeout(() => navigate('/dashboard/categories'), 2000);

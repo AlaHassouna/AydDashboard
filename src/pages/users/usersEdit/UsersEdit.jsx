@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const UsersEdit = () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
     // États pour les champs du formulaire
   const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
@@ -37,7 +39,7 @@ const UsersEdit = () => {
   useEffect(() => {
     const fetchUser = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/users/${id}`, {
+            const response = await axios.get(`${API_URL}/users/${id}`, {
                 headers: {
                     accept: 'application/json',
                 },
@@ -123,7 +125,7 @@ const UsersEdit = () => {
   
     try {
         // Envoi des données avec Axios (PUT request)
-        const response = await axios.put(`http://localhost:8000/api/users/${id}`, userData, {
+        const response = await axios.put(`${API_URL}/users/${id}`, userData, {
           headers: {
             "Content-Type": "application/json",
           },

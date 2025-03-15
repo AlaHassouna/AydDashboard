@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
-import Pagination from './Pagination';
+import Pagination from '../../orders/Pagination';
 
-const ListOrders = () => {
+const ListOrdersConf = () => {
   const API_URL = import.meta.env.VITE_API_BASE_URL;
  
   const [activePage, setActivePage] = useState(1);
@@ -67,7 +67,7 @@ const ListOrders = () => {
   const [paginationTab ,setPaginationTab ]=useState([])
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`${API_URL}/orders`, {
+      const response = await axios.get(`${API_URL}/orders/confirmed`, {
         params: {
           page: currentPage,
           pageSize: pageSize,
@@ -77,7 +77,9 @@ const ListOrders = () => {
         headers: {
           accept: 'application/json',
         },
+
       });
+      console.log("response",response)
       setPaginationTab(generatePaginationTab(response.data.totalPages));
       setOrders(response.data.orders);
       setTotalPages(response.data.totalPages);
@@ -86,10 +88,20 @@ const ListOrders = () => {
     }
   };
   useEffect(() => {
-   
-
-    fetchOrders();
+    const fetchData = () => {
+      fetchOrders();
+    };
+  
+    // Exécuter immédiatement lors du montage et lors des changements de dépendances
+    fetchData();
+  
+    // Définir l'intervalle pour exécuter `fetchOrders` toutes les 15 minutes
+    const intervalId = setInterval(fetchData, 900000);
+  
+    // Nettoyer l'intervalle lorsque les dépendances changent ou lorsque le composant est démonté
+    return () => clearInterval(intervalId);
   }, [currentPage, userName, sortBy]);
+  
   useEffect(()=>{
     console.log("Orders",orders)
   },[orders])
@@ -239,7 +251,7 @@ const ListOrders = () => {
       <div className="space-y-6">
         {/* Informations sur l'utilisateur */}
         <div className="space-y-4">
-          {selectedOrder.user && (
+        {selectedOrder.user && (
             <>
             <p><strong className="text-gray-600">ID Utilisateur:</strong> {selectedOrder.user?.id}</p>
           <p><strong className="text-gray-600">Email:</strong> {selectedOrder.user?.Email}</p>
@@ -250,7 +262,6 @@ const ListOrders = () => {
           <p><strong className="text-gray-600">Délégation:</strong> {selectedOrder.user?.Delegation}</p>
           </>
           )}
-          
         </div>
         
         {/* Informations sur la commande */}
@@ -318,4 +329,4 @@ const ListOrders = () => {
   );
 };
 
-export default ListOrders
+export default ListOrdersConf
